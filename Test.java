@@ -1,10 +1,24 @@
 package collectionframework;
 import collectionframework.CustomArrayList;
+import collectionframework.CustomStack;
 import java.util.Arrays;
 class Test
 {
-    public static void main(String[] args)
-    {
+    private static void testCustomStack(){
+    CustomStack<Integer> stack = new CustomStack<>();
+
+        stack.push(10);
+        stack.push(20);
+        stack.push(30);
+
+        System.out.println("Top element: " + stack.peek()); // 30
+        System.out.println("Popped: " + stack.pop());       // 30
+        System.out.println("Popped: " + stack.pop());       // 20
+        System.out.println("Is empty? " + stack.empty()); // false
+        System.out.println("Popped: " + stack.pop());       // 10
+        System.out.println("Is empty? " + stack.empty()); // true
+    }
+    private static void testCustomArrayList(){
         CustomArrayList<String> list = new CustomArrayList<>();
 
         // Test add(E)
@@ -49,5 +63,10 @@ class Test
         }
         System.out.println("After adding more elements: " + numbers);
         System.out.println("Final size: " + numbers.size()); // 15
+    }
+    public static void main(String[] args)
+    {
+        testCustomArrayList();
+        testCustomStack();
     }
 }

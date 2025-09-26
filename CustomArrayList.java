@@ -2,6 +2,8 @@ package collectionframework;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
+
 
 public class CustomArrayList<E>
 {
@@ -240,13 +242,14 @@ public class CustomArrayList<E>
         return a;
     }
     // toIndex exclusive so upto toIndex
-    public List<E> subList(int fromIndex, int toIndex)
+    @SuppressWarnings("unchecked")
+    public CustomArrayList<E> subList(int fromIndex, int toIndex)
     {
 
-        List<E> list = new CustomArrayList<>();
+        CustomArrayList<E> list = new CustomArrayList<>();
         for(int i = fromIndex; i < toIndex; i++)
         {
-            list.add(this.elementData[i]);
+            list.add((E)this.elementData[i]);
         }
         return list;
     }
