@@ -1,5 +1,8 @@
 package collectionframework;
 
+import java.util.NoSuchElementException;
+import java.util.Objects;
+
 public class CustomLinkedList<T> {
     private Node<T> head;
     private Node<T> tail;
@@ -9,11 +12,8 @@ public class CustomLinkedList<T> {
         T data;
         Node<T> prev;
         Node<T> next;
-
         Node(T data) {
             this.data = data;
-            this.prev = null;
-            this.next = null;
         }
     }
 
@@ -48,9 +48,7 @@ public class CustomLinkedList<T> {
     }
 
     public T removeFirst() {
-        if (isEmpty()) {
-            throw new IllegalStateException("List is empty");
-        }
+        if (isEmpty()) throw new NoSuchElementException("List is empty");
         T data = head.data;
         head = head.next;
         if (head == null) {
@@ -63,9 +61,7 @@ public class CustomLinkedList<T> {
     }
 
     public T removeLast() {
-        if (isEmpty()) {
-            throw new IllegalStateException("List is empty");
-        }
+        if (isEmpty()) throw new NoSuchElementException("List is empty");
         T data = tail.data;
         tail = tail.prev;
         if (tail == null) {
@@ -75,6 +71,80 @@ public class CustomLinkedList<T> {
         }
         size--;
         return data;
+    }
+
+    public T getFirst() {
+        if (isEmpty()) throw new NoSuchElementException("List is empty");
+        return head.data;
+    }
+
+    public T getLast() {
+        if (isEmpty()) throw new NoSuchElementException("List is empty");
+        return tail.data;
+    }
+
+    public T get(int index) {
+        checkIndex(index);
+        Node<T> current = head;
+        for (int i = 0; i < index; i++) {
+            current = current.next;
+        }
+        return current.data;
+    }
+
+    public boolean contains(Object o) {
+        return indexOf(o) != -1;
+    }
+
+    public int indexOf(Object o) {
+        int index = 0;
+        Node<T> current = head;
+        while (current != null) {
+            if (Objects.equals(o, current.data)) return index;
+            current = current.next;
+            index++;
+        }
+        return -1;
+    }
+
+    public int lastIndexOf(Object o) {
+        int index = size - 1;
+        Node<T> current = tail;
+        while (current != null) {
+            if (Objects.equals(o, current.data)) return index;
+            current = current.prev;
+            index--;
+        }
+        return -1;
+    }
+
+    public Object[] toArray() {
+        Object[] array = new Object[size];
+        Node<T> current = head;
+        int i = 0;
+        while (current != null) {
+            array[i++] = current.data;
+            current = current.next;
+        }
+        return array;
+    }
+
+    public <E> E[] toArray(E[] a) {
+        if (a.length < size) {
+            @SuppressWarnings("unchecked")
+            E[] newArr = (E[]) new Object[size];
+            a = newArr;
+        }
+        Node<T> current = head;
+        int i = 0;
+        while (current != null) {
+            @SuppressWarnings("unchecked")
+            E element = (E) current.data;
+            a[i++] = element;
+            current = current.next;
+        }
+        if (a.length > size) a[size] = null; 
+        return a;
     }
 
     public boolean isEmpty() {
@@ -91,6 +161,11 @@ public class CustomLinkedList<T> {
         size = 0;
     }
 
+    private void checkIndex(int index) {
+        if (index < 0 || index >= size)
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -98,9 +173,7 @@ public class CustomLinkedList<T> {
         Node<T> current = head;
         while (current != null) {
             sb.append(current.data);
-            if (current.next != null) {
-                sb.append(", ");
-            }
+            if (current.next != null) sb.append(", ");
             current = current.next;
         }
         sb.append("]");
