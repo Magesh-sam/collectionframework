@@ -90,6 +90,31 @@ public class CustomHashMap<K, V> {
         return null;
     }
 
+    public boolean containsKey(Object key){
+         int index = (capacity - 1) & hash(key);
+        Entry<K, V> current = table[index];
+        while (current!=null) {
+             if (Objects.equals(current.key, key)) {
+               return true;
+            }
+            current = current.next;
+        }
+        return false;
+    }
+    
+    public boolean containsValue(Object value){
+        for(int i=0;i<capacity;i++){
+            Entry<K,V> current = table[i];
+            while (current!=null) {
+                if(Objects.equals(current.value, value)){
+                    return true;
+                }
+                current = current.next;
+            }
+        }
+        return false;
+    }
+
     @SuppressWarnings("unchecked")
     private void resize() {
         int newCapacity = capacity * 2;
