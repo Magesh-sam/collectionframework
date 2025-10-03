@@ -34,6 +34,7 @@ public class CustomHashMap<K, V> {
         this(initialCapacity, DEFAULT_LOAD_FACTOR);
     }
 
+    @SuppressWarnings("unchecked")
     public CustomHashMap(int initialCapacity, float loadFactor) {
         if (initialCapacity <= 0) {
             throw new IllegalArgumentException("Illegal initial capacity: " + initialCapacity);
@@ -43,11 +44,12 @@ public class CustomHashMap<K, V> {
         }
         this.capacity = initialCapacity;
         this.loadFactor = loadFactor;
+        this.table = new Entry[initialCapacity];
         this.size = 0;
     }
 
-    public V get(K key) {
-        int index = (capacity-1) & hash(key);
+    public V get(Object key) {
+        int index = (capacity - 1) & hash(key);
         Entry<K, V> current = table[index];
         while (current != null) {
             if (Objects.equals(current.key, key)) {
@@ -56,6 +58,11 @@ public class CustomHashMap<K, V> {
             current = current.next;
         }
         return null;
+    }
+
+    public V getOrDefault(Object key, V defaultValue) {
+        V value = get(key);
+        return value == null ? defaultValue : value;
     }
 
     public V put(K key, V value) {
@@ -70,13 +77,42 @@ public class CustomHashMap<K, V> {
             }
             current = current.next;
         }
-        Entry<K, V> newEntry =new Entry<K,V>(key, value);
+        Entry<K, V> newEntry = new Entry<K, V>(key, value);
         newEntry.next = table[index];
         table[index] = newEntry;
         this.size++;
 
-        //resize method
+        // resize method
+        if ((float) size / capacity > loadFactor) {
+            resize();
+        }
 
         return null;
+    }
+
+    @SuppressWarnings("unchecked")
+    private void resize() {
+        int newCapacity = capacity * 2;
+        Entry<K, V>[] newTable = new Entry[newCapacity];
+        for (int i = 0; i < capacity; i++) {
+            Entry<K, V> current = table[i];
+            while (current != null) {
+                Entry<K, V> next = current.next;
+                int newIndex = (newCapacity - 1) & hash(current.key);
+                current.next = newTable[newIndex];
+                newTable[newIndex] = current;
+                current = next;
+            }
+        }
+        table = newTable;
+        capacity = newCapacity;
+    }
+
+    public boolean isEmpty() {
+        return size() == 0;
+    }
+
+    public int size() {
+        return size;
     }
 }
