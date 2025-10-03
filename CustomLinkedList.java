@@ -84,7 +84,7 @@ public class CustomLinkedList<T> {
     }
 
     public T remove(int index) {
-        checkIndex();
+        checkIndex(index);
 
         if (index == 0) {
             return removeFirst();
@@ -166,9 +166,7 @@ public class CustomLinkedList<T> {
     }
 
     public T get(int index) {
-        checkIcheckIndex(index);
-        ndcheckIndex(index);
-        ex(index);
+        checkIndex(index);
         Node<T> current = head;
         for (int i = 0; i < index; i++) {
             current = current.next;

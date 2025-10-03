@@ -23,11 +23,6 @@ public class CustomArrayList<E> {
         Object[] a = c.toArray();
         this.size = a.length;
         if (size != 0) {
-            // if(c.getClass()==CustomArrayList.class){
-            // @SuppressWarnings("unchecked")
-            // CustomArrayList<E> src = (CustomArrayList<E>) c;
-            // this.elementData = src.elementData;
-            // }
             this.elementData = Arrays.copyOf(a, size, Object[].class);
         } else {
             this.elementData = EMPTY_ELEMENTDATA;
@@ -52,9 +47,8 @@ public class CustomArrayList<E> {
         return true;
     }
 
-    // Add element at specific index
     public void add(int index, E e) {
-
+        
         rangeCheckForAdd(index);
         ensureCapacity(size + 1);
 
@@ -67,14 +61,12 @@ public class CustomArrayList<E> {
         size++;
     }
 
-    // Get element
     @SuppressWarnings("unchecked")
     public E get(int index) {
         rangeCheck(index);
         return (E) elementData[index];
     }
 
-    // Set element
     @SuppressWarnings("unchecked")
     public E set(int index, E e) {
         rangeCheck(index);
@@ -83,7 +75,6 @@ public class CustomArrayList<E> {
         return old;
     }
 
-    // Remove element at index
     @SuppressWarnings("unchecked")
     public E remove(int index) {
         rangeCheck(index);
@@ -104,13 +95,11 @@ public class CustomArrayList<E> {
         return false;
     }
 
-    // Clear list
     public void clear() {
         Arrays.fill(this.elementData, 0, size, null);
         size = 0;
     }
 
-    // Size and empty checks
     public int size() {
         return size;
     }
@@ -119,7 +108,6 @@ public class CustomArrayList<E> {
         return size == 0;
     }
 
-    // first occurance
     public int indexOf(Object o) {
         if (o == null) {
             for (int i = 0; i < elementData.length; i++) {
@@ -143,7 +131,15 @@ public class CustomArrayList<E> {
         return indexOf(o) >= 0;
     }
 
-    // last occu
+    public boolean containsAll(Collection<? extends E> c){
+        for (Object element : c) {
+            if (!this.contains(element)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public int lastIndexOf(Object o) {
         if (o == null) {
             for (int i = elementData.length - 1; i >= 0; i--) {
@@ -200,7 +196,6 @@ public class CustomArrayList<E> {
         return list;
     }
 
-    // grow upto min capvity
     public void ensureCapacity(int minCapacity) {
         if (minCapacity > elementData.length) {
             grow(minCapacity);
