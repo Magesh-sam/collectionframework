@@ -1,4 +1,8 @@
+package collectionframework;
+
 import java.util.Objects;
+import java.util.List;
+import java.util.ArrayList;
 
 public class CustomHashMap<K, V> {
 
@@ -115,6 +119,45 @@ public class CustomHashMap<K, V> {
         return false;
     }
 
+    public V replace(K key, V value){
+        int index = (capacity-1) & hash(key);
+        Entry<K,V> current = table[index];
+        while(current!=null){
+            if(Objects.equals(current.key,key)){
+                V oldValue = current.value;
+                current.value = value;
+                return oldValue;
+            }
+            current = current.next;
+        }
+        return null;
+    }
+
+    public boolean replace(K key, V oldValue, V newValue){
+        int index = (capacity-1) & hash(key);
+        Entry<K,V> current = table[index];
+        while(current!=null){
+            if(Objects.equals(current.key,key) && Objects.equals(current.value,oldValue)){
+                current.value = newValue;
+                return true;
+            }
+            current = current.next;
+        }
+        return false;
+    }
+
+    public List<V> values(){
+        List<V> list = new ArrayList<>();
+        for(int i=0;i<capacity;i++){
+            Entry<K,V> current = table[i];
+            while(current!=null){
+                list.add(current.value);
+                current = current.next;
+            }
+        }
+        return list;
+    }
+
     @SuppressWarnings("unchecked")
     private void resize() {
         int newCapacity = capacity * 2;
@@ -131,6 +174,13 @@ public class CustomHashMap<K, V> {
         }
         table = newTable;
         capacity = newCapacity;
+    }
+
+    public void clear(){
+        for(int i=0;i<table.length;i++){
+            table[i] = null;
+        }
+        size=0;
     }
 
     public boolean isEmpty() {

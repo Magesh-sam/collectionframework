@@ -3,6 +3,7 @@ package collectionframework;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 public class CustomArrayList<E> {
 
@@ -131,14 +132,12 @@ public class CustomArrayList<E> {
         return indexOf(o) >= 0;
     }
 
-    public boolean containsAll(Collection<? extends E> c){
-        for (Object element : c) {
-            if (!this.contains(element)) {
-                return false;
-            }
-        }
-        return true;
-    }
+    // public boolean containsAll(Collection<? extends E> c){
+    //     if(Objects.requireNonNull(c)){
+            
+    //     }
+    //     return true;
+    // }
 
     public int lastIndexOf(Object o) {
         if (o == null) {

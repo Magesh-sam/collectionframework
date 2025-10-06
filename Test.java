@@ -2,12 +2,15 @@ package collectionframework;
 
 import collectionframework.CustomArrayList;
 import collectionframework.CustomStack;
+import collectionframework.CustomLinkedList;
+import collectionframework.CustomHashMap;
+
 import java.util.Arrays;
+import java.util.Comparator;
 
 class Test {
     private static void testCustomStack() {
         CustomStack<Integer> stack = new CustomStack<>();
-
         stack.push(10);
         stack.push(20);
         stack.push(30);
@@ -65,9 +68,101 @@ class Test {
         System.out.println("After adding more elements: " + numbers);
         System.out.println("Final size: " + numbers.size()); // 15
     }
+    private static void testCustomLinkedList(){
+        CustomLinkedList<Integer> list = new CustomLinkedList<>();
+
+        System.out.println("=== Adding Elements ===");
+        list.addFirst(2);
+        list.addFirst(1);
+        list.addLast(3);
+        list.addLast(4);
+        System.out.println("List: " + list);
+
+        System.out.println("\n=== Add at Index ===");
+        list.add(2, 99);
+        System.out.println("After adding 99 at index 2: " + list);
+
+        System.out.println("\n=== Get Methods ===");
+        System.out.println("First Element: " + list.getFirst());
+        System.out.println("Last Element: " + list.getLast());
+        System.out.println("Element at index 2: " + list.get(2));
+
+        System.out.println("\n=== Contains / Index Methods ===");
+        System.out.println("Contains 99? " + list.contains(99));
+        System.out.println("Index of 3: " + list.indexOf(3));
+        System.out.println("Last index of 3: " + list.lastIndexOf(3));
+
+        System.out.println("\n=== Removing Elements ===");
+        System.out.println("Removed First: " + list.removeFirst());
+        System.out.println("After removeFirst: " + list);
+        System.out.println("Removed Last: " + list.removeLast());
+        System.out.println("After removeLast: " + list);
+        System.out.println("Removed at index 1: " + list.remove(1));
+        System.out.println("After remove(1): " + list);
+
+        System.out.println("\n=== Adding Again ===");
+        list.addFirst(10);
+        list.addLast(20);
+        list.add(1, 15);
+        System.out.println("After adding again: " + list);
+
+        System.out.println("\n=== Convert to Array ===");
+        Object[] array = list.toArray();
+        System.out.print("Array elements: ");
+        for (Object o : array) System.out.print(o + " ");
+        System.out.println();
+
+        System.out.println("\n=== Size and Clear ===");
+        System.out.println("List size: " + list.size());
+        list.clear();
+        System.out.println("After clear: " + list);
+        System.out.println("Is empty? " + list.isEmpty());
+    }
+
+    private static void testCustomHashMap(){
+         CustomHashMap<String, Integer> map = new CustomHashMap<>();
+
+        // Test put and get
+        map.put("A", 1);
+        map.put("B", 2);
+        map.put("C", 3);
+        System.out.println("Value for A: " + map.get("A")); // Expected 1
+        System.out.println("Value for B: " + map.get("B")); // Expected 2
+        System.out.println("Value for Z (nonexistent): " + map.get("Z")); // Expected null
+
+        // Test getOrDefault
+        System.out.println("Value for Z with default: " + map.getOrDefault("Z", -1)); // Expected -1
+
+        // Test containsKey and containsValue
+        System.out.println("Contains key B: " + map.containsKey("B")); // Expected true
+        System.out.println("Contains key X: " + map.containsKey("X")); // Expected false
+        System.out.println("Contains value 2: " + map.containsValue(2)); // Expected true
+        System.out.println("Contains value 10: " + map.containsValue(10)); // Expected false
+
+        // Test replace
+        System.out.println("Replace value for B: " + map.replace("B", 20)); // Expected old value 2
+        System.out.println("Replace successful? " + map.replace("C", 3, 30)); // Expected true
+        System.out.println("Replace unsuccessful? " + map.replace("C", 3, 300)); // Expected false
+
+        // Test values() list
+        System.out.println("All values: " + map.values()); // Expected [1, 20, 30] in some order
+
+        // Test resizing by adding more elements
+        for (int i = 0; i < 20; i++) {
+            map.put("Key" + i, i);
+        }
+        System.out.println("Size after adding 20 elements: " + map.size());
+
+        // Test clear
+        map.clear();
+        System.out.println("Size after clear: " + map.size()); // Expected 0
+        System.out.println("Is map empty? " + map.isEmpty());  // Expected true
+    }
 
     public static void main(String[] args) {
         testCustomArrayList();
         testCustomStack();
+        testCustomLinkedList();
+        testCustomHashMap();
     }
 }
