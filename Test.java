@@ -4,9 +4,11 @@ import collectionframework.CustomArrayList;
 import collectionframework.CustomStack;
 import collectionframework.CustomLinkedList;
 import collectionframework.CustomHashMap;
+import collectionframework.CustomHashSet;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 
 class Test {
     private static void testCustomStack() {
@@ -68,7 +70,8 @@ class Test {
         System.out.println("After adding more elements: " + numbers);
         System.out.println("Final size: " + numbers.size()); // 15
     }
-    private static void testCustomLinkedList(){
+
+    private static void testCustomLinkedList() {
         CustomLinkedList<Integer> list = new CustomLinkedList<>();
 
         System.out.println("=== Adding Elements ===");
@@ -109,7 +112,8 @@ class Test {
         System.out.println("\n=== Convert to Array ===");
         Object[] array = list.toArray();
         System.out.print("Array elements: ");
-        for (Object o : array) System.out.print(o + " ");
+        for (Object o : array)
+            System.out.print(o + " ");
         System.out.println();
 
         System.out.println("\n=== Size and Clear ===");
@@ -119,8 +123,8 @@ class Test {
         System.out.println("Is empty? " + list.isEmpty());
     }
 
-    private static void testCustomHashMap(){
-         CustomHashMap<String, Integer> map = new CustomHashMap<>();
+    private static void testCustomHashMap() {
+        CustomHashMap<String, Integer> map = new CustomHashMap<>();
 
         // Test put and get
         map.put("A", 1);
@@ -156,7 +160,39 @@ class Test {
         // Test clear
         map.clear();
         System.out.println("Size after clear: " + map.size()); // Expected 0
-        System.out.println("Is map empty? " + map.isEmpty());  // Expected true
+        System.out.println("Is map empty? " + map.isEmpty()); // Expected true
+    }
+
+    private static void testCustomHashSet() {
+        CustomHashSet<String> set1 = new CustomHashSet<>();
+
+        // Add individual elements
+        System.out.println("Adding elements to set1:");
+        set1.add("Apple");
+        set1.add("Banana");
+        set1.add("Orange");
+        System.out.println("Size of set1: " + set1.size());
+
+        // Try adding duplicate
+        System.out.println("\nTrying to add duplicate 'Apple': " + set1.add("Apple"));
+
+        // Check if elements exist
+        System.out.println("\nChecking contains:");
+        System.out.println("Contains 'Apple': " + set1.contains("Apple"));
+        System.out.println("Contains 'Grape': " + set1.contains("Grape"));
+
+        // Create a set from collection
+        List<String> fruits = Arrays.asList("Mango", "Pineapple", "Apple");
+        CustomHashSet<String> set2 = new CustomHashSet<>(fruits);
+        System.out.println("\nset2 size after creation from list: " + set2.size());
+
+        // Remove an element
+        System.out.println("\nRemoving 'Mango' from set2: " + set2.remove("Mango"));
+        System.out.println("set2 size after removal: " + set2.size());
+
+        // Clear the set
+        set2.clear();
+        System.out.println("\nset2 is empty after clear: " + set2.isEmpty());
     }
 
     public static void main(String[] args) {
@@ -164,5 +200,6 @@ class Test {
         testCustomStack();
         testCustomLinkedList();
         testCustomHashMap();
+        testCustomHashSet();
     }
 }
