@@ -1,3 +1,5 @@
+package collectionframework;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
@@ -85,5 +87,13 @@ public class CustomLinkedHashMap<K, V> extends HashMap<K, V> {
     public void clear() {
         super.clear();
         head = tail = null;
+    }
+
+    public void print(){
+        Node<K,V> curr = head;
+        while (curr!=null) {
+            System.out.println(curr.key.toString() + " -> " +curr.value.toString());
+            curr = curr.next;
+        }
     }
 }

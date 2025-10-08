@@ -5,6 +5,7 @@ import collectionframework.CustomStack;
 import collectionframework.CustomLinkedList;
 import collectionframework.CustomHashMap;
 import collectionframework.CustomHashSet;
+import collectionframework.CustomLinkedHashMap;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -163,6 +164,49 @@ class Test {
         System.out.println("Is map empty? " + map.isEmpty()); // Expected true
     }
 
+    private static void testCustomLinkedHashMap() {
+        CustomLinkedHashMap<String, Integer> map = new CustomLinkedHashMap<>();
+
+        // Test put and get
+        map.put("A", 1);
+        map.put("B", 2);
+        map.put("C", 3);
+
+        map.print();
+
+        System.out.println("Value for A: " + map.get("A")); // Expected 1
+        System.out.println("Value for B: " + map.get("B")); // Expected 2
+        System.out.println("Value for Z (nonexistent): " + map.get("Z")); // Expected null
+
+        // Test getOrDefault
+        System.out.println("Value for Z with default: " + map.getOrDefault("Z", -1)); // Expected -1
+
+        // Test containsKey and containsValue
+        System.out.println("Contains key B: " + map.containsKey("B")); // Expected true
+        System.out.println("Contains key X: " + map.containsKey("X")); // Expected false
+        System.out.println("Contains value 2: " + map.containsValue(2)); // Expected true
+        System.out.println("Contains value 10: " + map.containsValue(10)); // Expected false
+
+        // Test replace
+        System.out.println("Replace value for B: " + map.replace("B", 20)); // Expected old value 2
+        System.out.println("Replace successful? " + map.replace("C", 3, 30)); // Expected true
+        System.out.println("Replace unsuccessful? " + map.replace("C", 3, 300)); // Expected false
+
+        // Test values() list
+        System.out.println("All values: " + map.values()); // Expected [1, 20, 30] in some order
+
+        // Test resizing by adding more elements
+        for (int i = 0; i < 20; i++) {
+            map.put("Key" + i, i);
+        }
+        System.out.println("Size after adding 20 elements: " + map.size());
+
+        // Test clear
+        map.clear();
+        System.out.println("Size after clear: " + map.size()); // Expected 0
+        System.out.println("Is map empty? " + map.isEmpty()); // Expected true
+    }
+
     private static void testCustomHashSet() {
         CustomHashSet<String> set1 = new CustomHashSet<>();
 
@@ -196,10 +240,11 @@ class Test {
     }
 
     public static void main(String[] args) {
-        testCustomArrayList();
-        testCustomStack();
-        testCustomLinkedList();
-        testCustomHashMap();
-        testCustomHashSet();
+        // testCustomArrayList();
+        // testCustomStack();
+        // testCustomLinkedList();
+        // testCustomHashMap();
+        // testCustomHashSet();
+        testCustomLinkedHashMap();
     }
 }
